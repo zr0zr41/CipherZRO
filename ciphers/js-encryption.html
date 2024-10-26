@@ -1,0 +1,319 @@
+<html><head><base href="/js-encryption">
+<title>CipherBox - JavaScript Encryption | تشفير جافا سكريبت</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<style>
+:root {
+  --primary-color: #072448;
+  --secondary-color: #54d2d2;
+  --accent-color: #ff6b6c;
+  --light-bg: #f8f9fa;
+  --dark-bg: #1a1b1e;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--light-bg);
+  color: var(--primary-color);
+}
+
+.navbar {
+  background: var(--primary-color);
+}
+
+.code-editor {
+  background: var(--dark-bg);
+  color: #e0e0e0;
+  font-family: 'Courier New', monospace;
+  padding: 20px;
+  border-radius: 8px;
+  min-height: 200px;
+  resize: vertical;
+}
+
+.encryption-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.encryption-card:hover {
+  transform: translateY(-5px);
+}
+
+.btn-cipher {
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-cipher:hover {
+  background: var(--accent-color);
+  transform: scale(1.05);
+}
+
+.syntax-highlight {
+  color: #9cdcfe;
+}
+
+.keyword-highlight {
+  color: #c586c0;
+}
+
+.string-highlight {
+  color: #ce9178;
+}
+
+.function-highlight {
+  color: #dcdcaa;
+}
+
+.ai-tip {
+  background: rgba(84,210,210,0.1);
+  border-right: 4px solid var(--secondary-color);
+  padding: 15px;
+  margin: 20px 0;
+}
+
+.copy-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--secondary-color);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: none;
+  z-index: 1000;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+</style>
+</head>
+<body dir="rtl">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <i class="fas fa-shield-alt me-2"></i>CipherBox
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">الرئيسية</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">تشفير جافا سكريبت</a>
+        </li>
+      </ul>
+      <div class="lang-switch">
+        EN | عربي
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-5">
+  <!-- Main Content -->
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h1 class="text-center mb-5">تشفير جافا سكريبت</h1>
+      
+      <!-- Encryption Options -->
+      <div class="encryption-card p-4 mb-4">
+        <h3 class="h5 mb-3">إعدادات التشفير</h3>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">نوع التشفير</label>
+            <select class="form-select" id="encryptionType">
+              <option value="AES">AES</option>
+              <option value="DES">DES</option>
+              <option value="TripleDES">Triple DES</option>
+              <option value="Rabbit">Rabbit</option>
+              <option value="RC4">RC4</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">المفتاح السري</label>
+            <input type="text" class="form-control" id="secretKey" placeholder="أدخل المفتاح السري">
+          </div>
+        </div>
+      </div>
+
+      <!-- Code Input -->
+      <div class="encryption-card p-4 mb-4">
+        <h3 class="h5 mb-3">النص المراد تشفيره</h3>
+        <textarea class="code-editor w-100" id="inputText" placeholder="أدخل النص أو الكود هنا..."></textarea>
+        <div class="d-flex justify-content-end gap-2 mt-3">
+          <button class="btn btn-cipher" id="encryptBtn">
+            <i class="fas fa-lock me-2"></i>تشفير
+          </button>
+          <button class="btn btn-outline-secondary" id="clearBtn">
+            <i class="fas fa-eraser me-2"></i>مسح
+          </button>
+        </div>
+      </div>
+
+      <!-- Encrypted Output -->
+      <div class="encryption-card p-4 mb-4">
+        <h3 class="h5 mb-3">النص المشفر</h3>
+        <div class="code-editor w-100" id="outputText" readonly></div>
+        <div class="d-flex justify-content-end gap-2 mt-3">
+          <button class="btn btn-cipher" id="decryptBtn">
+            <i class="fas fa-unlock me-2"></i>فك التشفير
+          </button>
+          <button class="btn btn-outline-secondary" id="copyBtn">
+            <i class="fas fa-copy me-2"></i>نسخ
+          </button>
+        </div>
+      </div>
+
+      <!-- AI Tips -->
+      <div class="ai-tip">
+        <h4 class="h6 mb-2"><i class="fas fa-robot me-2"></i>نصائح الذكاء الاصطناعي</h4>
+        <p class="mb-0" id="aiTip">
+          استخدم مفاتيح قوية وعشوائية للحصول على أفضل حماية. يفضل استخدام AES للتشفير القوي والآمن.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Copy Notification -->
+<div class="copy-notification" id="copyNotification">
+  تم النسخ بنجاح!
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const encryptionType = document.getElementById('encryptionType');
+  const secretKey = document.getElementById('secretKey');
+  const inputText = document.getElementById('inputText');
+  const outputText = document.getElementById('outputText');
+  const encryptBtn = document.getElementById('encryptBtn');
+  const decryptBtn = document.getElementById('decryptBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const aiTip = document.getElementById('aiTip');
+  const copyNotification = document.getElementById('copyNotification');
+
+  // Encryption Function
+  function encrypt(text, key, type) {
+    try {
+      switch(type) {
+        case 'AES':
+          return CryptoJS.AES.encrypt(text, key).toString();
+        case 'DES':
+          return CryptoJS.DES.encrypt(text, key).toString();
+        case 'TripleDES':
+          return CryptoJS.TripleDES.encrypt(text, key).toString();
+        case 'Rabbit':
+          return CryptoJS.Rabbit.encrypt(text, key).toString();
+        case 'RC4':
+          return CryptoJS.RC4.encrypt(text, key).toString();
+        default:
+          return CryptoJS.AES.encrypt(text, key).toString();
+      }
+    } catch(e) {
+      console.error(e);
+      return 'Error during encryption';
+    }
+  }
+
+  // Decryption Function
+  function decrypt(encryptedText, key, type) {
+    try {
+      switch(type) {
+        case 'AES':
+          return CryptoJS.AES.decrypt(encryptedText, key).toString(CryptoJS.enc.Utf8);
+        case 'DES':
+          return CryptoJS.DES.decrypt(encryptedText, key).toString(CryptoJS.enc.Utf8);
+        case 'TripleDES':
+          return CryptoJS.TripleDES.decrypt(encryptedText, key).toString(CryptoJS.enc.Utf8);
+        case 'Rabbit':
+          return CryptoJS.Rabbit.decrypt(encryptedText, key).toString(CryptoJS.enc.Utf8);
+        case 'RC4':
+          return CryptoJS.RC4.decrypt(encryptedText, key).toString(CryptoJS.enc.Utf8);
+        default:
+          return CryptoJS.AES.decrypt(encryptedText, key).toString(CryptoJS.enc.Utf8);
+      }
+    } catch(e) {
+      console.error(e);
+      return 'Error during decryption';
+    }
+  }
+
+  // Event Handlers
+  encryptBtn.addEventListener('click', () => {
+    if (!secretKey.value) {
+      alert('الرجاء إدخال المفتاح السري');
+      return;
+    }
+    const encrypted = encrypt(inputText.value, secretKey.value, encryptionType.value);
+    outputText.textContent = encrypted;
+    updateAITip();
+  });
+
+  decryptBtn.addEventListener('click', () => {
+    if (!secretKey.value) {
+      alert('الرجاء إدخال المفتاح السري');
+      return;
+    }
+    const decrypted = decrypt(outputText.textContent, secretKey.value, encryptionType.value);
+    outputText.textContent = decrypted;
+  });
+
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(outputText.textContent).then(() => {
+      showCopyNotification();
+    });
+  });
+
+  clearBtn.addEventListener('click', () => {
+    inputText.value = '';
+    outputText.textContent = '';
+    updateAITip();
+  });
+
+  function showCopyNotification() {
+    copyNotification.style.display = 'block';
+    copyNotification.classList.add('animate-in');
+    setTimeout(() => {
+      copyNotification.style.display = 'none';
+      copyNotification.classList.remove('animate-in');
+    }, 2000);
+  }
+
+  function updateAITip() {
+    const tips = [
+      'استخدم مفاتيح قوية وعشوائية للحصول على أفضل حماية. يفضل استخدام AES للتشفير القوي والآمن.',
+      'تجنب استخدام كلمات مرور بسيطة كمفاتيح تشفير. استخدم مزيجاً من الأحرف والأرقام والرموز.',
+      'احرص على حفظ المفتاح السري في مكان آمن. فقدان المفتاح يعني فقدان القدرة على فك التشفير.',
+      'يعتبر AES-256 من أقوى خوارزميات التشفير المتوفرة حالياً.'
+    ];
+    aiTip.textContent = tips[Math.floor(Math.random() * tips.length)];
+  }
+
+  // Initialize with random tip
+  updateAITip();
+});
+</script>
+
+<script src="https://kit.fontawesome.com/123abc123.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body></html>
