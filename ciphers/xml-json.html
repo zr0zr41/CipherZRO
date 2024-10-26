@@ -1,0 +1,455 @@
+<html><head><base href="/xml-json">
+<title>XML & JSON Encryption - CipherBox</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<style>
+:root {
+  --primary-color: #072448;
+  --secondary-color: #54d2d2;
+  --accent-color: #ff6b6c;
+  --light-bg: #f8f9fa;
+  --dark-bg: #1a1b1e;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--light-bg);
+  color: var(--primary-color);
+}
+
+.navbar {
+  background: var(--primary-color);
+}
+
+.code-editor {
+  font-family: 'Courier New', monospace;
+  min-height: 200px;
+  padding: 15px;
+  background: var(--dark-bg);
+  color: #e0e0e0;
+  border-radius: 5px;
+  border: 1px solid #444;
+  resize: vertical;
+}
+
+.code-output {
+  min-height: 100px;
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  white-space: pre-wrap;
+}
+
+.btn-cipher {
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-cipher:hover {
+  background: var(--accent-color);
+  transform: scale(1.05);
+}
+
+.error-message {
+  color: #dc3545;
+  display: none;
+  margin-top: 10px;
+}
+
+.success-message {
+  color: #198754;
+  display: none;
+  margin-top: 10px;
+}
+
+.syntax-highlight {
+  color: #66d9ef;
+}
+
+.key-highlight {
+  color: #a6e22e;
+}
+
+.string-highlight {
+  color: #e6db74;
+}
+
+.tooltips {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltips .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: var(--dark-bg);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltips:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.format-indicator {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--secondary-color);
+  color: white;
+  font-size: 0.8rem;
+  margin-right: 10px;
+}
+
+@keyframes highlight {
+  0% { background-color: var(--accent-color); }
+  100% { background-color: transparent; }
+}
+
+.highlight-animation {
+  animation: highlight 1s ease-out;
+}
+</style>
+</head>
+<body dir="rtl">
+
+<nav class="navbar navbar-expand-lg navbar-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <i class="fas fa-shield-alt me-2"></i>CipherBox
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/CipherZRO/index">الرئيسية</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">XML & JSON تشفير</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <h1 class="mb-4">تشفير XML و JSON</h1>
+  
+  <!-- Format Selection -->
+  <div class="mb-4">
+    <label class="mb-2">اختر نوع البيانات:</label>
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-cipher active" id="jsonBtn">JSON</button>
+      <button type="button" class="btn btn-outline-secondary" id="xmlBtn">XML</button>
+    </div>
+  </div>
+
+  <!-- Encryption Method -->
+  <div class="mb-4">
+    <label class="mb-2">طريقة التشفير:</label>
+    <select class="form-select" id="encryptionMethod">
+      <option value="AES">AES (Advanced Encryption Standard)</option>
+      <option value="DES">DES (Data Encryption Standard)</option>
+      <option value="TripleDES">Triple DES</option>
+    </select>
+  </div>
+
+  <!-- Secret Key -->
+  <div class="mb-4">
+    <label class="mb-2">المفتاح السري:</label>
+    <div class="input-group">
+      <input type="password" class="form-control" id="secretKey" placeholder="أدخل المفتاح السري">
+      <button class="btn btn-outline-secondary" type="button" id="toggleKey">
+        <i class="fas fa-eye"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Input Area -->
+  <div class="mb-4">
+    <label class="mb-2">النص المراد تشفيره:</label>
+    <div class="position-relative">
+      <textarea class="code-editor" id="inputText" placeholder='{"key": "value"}' rows="8"></textarea>
+      <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2" id="formatBtn">
+        تنسيق النص
+      </button>
+    </div>
+    <div class="error-message" id="inputError"></div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="mb-4">
+    <button class="btn btn-cipher me-2" id="encryptBtn">
+      <i class="fas fa-lock me-2"></i>تشفير
+    </button>
+    <button class="btn btn-cipher" id="decryptBtn">
+      <i class="fas fa-unlock me-2"></i>فك التشفير
+    </button>
+  </div>
+
+  <!-- Output Area -->
+  <div class="mb-4">
+    <label class="mb-2">النتيجة:</label>
+    <div class="code-output" id="outputText"></div>
+    <button class="btn btn-outline-secondary mt-2" id="copyBtn">
+      <i class="fas fa-copy me-2"></i>نسخ النتيجة
+    </button>
+  </div>
+
+  <!-- Examples Section -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h5 class="mb-0">أمثلة</h5>
+    </div>
+    <div class="card-body">
+      <div class="mb-3">
+        <h6>مثال JSON:</h6>
+        <pre class="code-editor">
+{
+  "user": {
+    "name": "أحمد",
+    "email": "ahmed@example.com",
+    "age": 25
+  }
+}</pre>
+      </div>
+      <div>
+        <h6>مثال XML:</h6>
+        <pre class="code-editor">
+<?xml version="1.0" encoding="UTF-8"?>
+<user>
+  <name>أحمد</name>
+  <email>ahmed@example.com</email>
+  <age>25</age>
+</user></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // DOM Elements
+  const inputText = document.getElementById('inputText');
+  const outputText = document.getElementById('outputText');
+  const secretKey = document.getElementById('secretKey');
+  const encryptBtn = document.getElementById('encryptBtn');
+  const decryptBtn = document.getElementById('decryptBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const formatBtn = document.getElementById('formatBtn');
+  const toggleKey = document.getElementById('toggleKey');
+  const jsonBtn = document.getElementById('jsonBtn');
+  const xmlBtn = document.getElementById('xmlBtn');
+  const encryptionMethod = document.getElementById('encryptionMethod');
+  const inputError = document.getElementById('inputError');
+
+  let currentFormat = 'json';
+
+  // Format Switcher
+  jsonBtn.addEventListener('click', () => {
+    currentFormat = 'json';
+    jsonBtn.classList.add('active');
+    xmlBtn.classList.remove('active');
+    updatePlaceholder();
+  });
+
+  xmlBtn.addEventListener('click', () => {
+    currentFormat = 'xml';
+    xmlBtn.classList.add('active');
+    jsonBtn.classList.remove('active');
+    updatePlaceholder();
+  });
+
+  function updatePlaceholder() {
+    inputText.placeholder = currentFormat === 'json' 
+      ? '{"key": "value"}' 
+      : '<?xml version="1.0"?>\n<root>\n  <key>value</key>\n</root>';
+  }
+
+  // Encryption Function
+  function encrypt(text, key, method) {
+    try {
+      let encrypted;
+      switch(method) {
+        case 'AES':
+          encrypted = CryptoJS.AES.encrypt(text, key).toString();
+          break;
+        case 'DES':
+          encrypted = CryptoJS.DES.encrypt(text, key).toString();
+          break;
+        case 'TripleDES':
+          encrypted = CryptoJS.TripleDES.encrypt(text, key).toString();
+          break;
+      }
+      return encrypted;
+    } catch(e) {
+      showError('حدث خطأ أثناء التشفير: ' + e.message);
+      return null;
+    }
+  }
+
+  // Decryption Function
+  function decrypt(encrypted, key, method) {
+    try {
+      let decrypted;
+      switch(method) {
+        case 'AES':
+          decrypted = CryptoJS.AES.decrypt(encrypted, key);
+          break;
+        case 'DES':
+          decrypted = CryptoJS.DES.decrypt(encrypted, key);
+          break;
+        case 'TripleDES':
+          decrypted = CryptoJS.TripleDES.decrypt(encrypted, key);
+          break;
+      }
+      return decrypted.toString(CryptoJS.enc.Utf8);
+    } catch(e) {
+      showError('حدث خطأ أثناء فك التشفير: ' + e.message);
+      return null;
+    }
+  }
+
+  // Validation Functions
+  function validateJSON(text) {
+    try {
+      JSON.parse(text);
+      return true;
+    } catch(e) {
+      return false;
+    }
+  }
+
+  function validateXML(text) {
+    try {
+      new DOMParser().parseFromString(text, 'text/xml');
+      return true;
+    } catch(e) {
+      return false;
+    }
+  }
+
+  // Event Handlers
+  encryptBtn.addEventListener('click', () => {
+    const text = inputText.value;
+    const key = secretKey.value;
+    
+    if (!key) {
+      showError('الرجاء إدخال المفتاح السري');
+      return;
+    }
+
+    if (currentFormat === 'json' && !validateJSON(text)) {
+      showError('النص المدخل ليس بتنسيق JSON صحيح');
+      return;
+    }
+
+    if (currentFormat === 'xml' && !validateXML(text)) {
+      showError('النص المدخل ليس بتنسيق XML صحيح');
+      return;
+    }
+
+    const encrypted = encrypt(text, key, encryptionMethod.value);
+    if (encrypted) {
+      outputText.textContent = encrypted;
+      hideError();
+    }
+  });
+
+  decryptBtn.addEventListener('click', () => {
+    const encrypted = inputText.value;
+    const key = secretKey.value;
+    
+    if (!key) {
+      showError('الرجاء إدخال المفتاح السري');
+      return;
+    }
+
+    const decrypted = decrypt(encrypted, key, encryptionMethod.value);
+    if (decrypted) {
+      try {
+        if (currentFormat === 'json') {
+          outputText.textContent = JSON.stringify(JSON.parse(decrypted), null, 2);
+        } else {
+          outputText.textContent = decrypted;
+        }
+        hideError();
+      } catch(e) {
+        showError('فشل في تنسيق النص المفكك: ' + e.message);
+      }
+    }
+  });
+
+  formatBtn.addEventListener('click', () => {
+    try {
+      if (currentFormat === 'json') {
+        const formatted = JSON.stringify(JSON.parse(inputText.value), null, 2);
+        inputText.value = formatted;
+      } else {
+        // Simple XML formatting
+        const formatted = inputText.value
+          .replace(/></g, '>\n<')
+          .replace(/^</, '\n<')
+          .split('\n')
+          .map(line => '  ' + line)
+          .join('\n');
+        inputText.value = formatted;
+      }
+      hideError();
+    } catch(e) {
+      showError('خطأ في تنسيق النص: ' + e.message);
+    }
+  });
+
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(outputText.textContent)
+      .then(() => {
+        copyBtn.textContent = 'تم النسخ!';
+        setTimeout(() => {
+          copyBtn.innerHTML = '<i class="fas fa-copy me-2"></i>نسخ النتيجة';
+        }, 2000);
+      });
+  });
+
+  toggleKey.addEventListener('click', () => {
+    const type = secretKey.getAttribute('type');
+    secretKey.setAttribute('type', type === 'password' ? 'text' : 'password');
+    toggleKey.innerHTML = type === 'password' ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+  });
+
+  function showError(message) {
+    inputError.textContent = message;
+    inputError.style.display = 'block';
+  }
+
+  function hideError() {
+    inputError.style.display = 'none';
+  }
+
+  // Initialize tooltips
+  const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+  tooltips.forEach(tooltip => {
+    new bootstrap.Tooltip(tooltip);
+  });
+});
+</script>
+<script src="https://kit.fontawesome.com/123abc123.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body></html>
