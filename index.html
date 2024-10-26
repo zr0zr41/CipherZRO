@@ -1,0 +1,496 @@
+<html><head><base href="/" /><title>CipherBox - منصة التشفير الشاملة</title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" /><script src="https://kit.fontawesome.com/123abc123.js" crossorigin="anonymous"></script><style>
+:root {
+  --primary-color: #072448;
+  --secondary-color: #54d2d2;
+  --accent-color: #ff6b6c;
+  --light-bg: #f8f9fa;
+  --dark-bg: #1a1b1e;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--light-bg);
+  color: var(--primary-color);
+}
+
+.navbar {
+  background: var(--primary-color);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.cipher-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.cipher-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.code-area {
+  font-family: 'Courier New', monospace;
+  background: var(--dark-bg);
+  color: #e0e0e0;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.btn-cipher {
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-cipher:hover {
+  background: var(--accent-color);
+  transform: scale(1.05);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  position: relative;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+.section-title:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: var(--accent-color);
+}
+
+.ai-chat {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.chat-message {
+  padding: 10px 15px;
+  margin: 5px 0;
+  border-radius: 15px;
+}
+
+.ai-message {
+  background: var(--light-bg);
+  margin-right: 20%;
+}
+
+.user-message {
+  background: var(--secondary-color);
+  color: white;
+  margin-left: 20%;
+}
+
+.technique-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+/* RTL Support */
+[dir="rtl"] .navbar-nav {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.lang-switch {
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: var(--secondary-color);
+  color: white;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+</style></head><body dir="rtl">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <i class="fas fa-shield-alt me-2"></i>CipherBox
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="#home">الرئيسية</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#techniques">التقنيات</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#features">المميزات</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#ai">الذكاء الاصطناعي</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#faq">الأسئلة الشائعة</a>
+        </li>
+      </ul>
+      <div class="lang-switch">
+        EN | عربي
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="home" class="py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <h1 class="display-4 fw-bold mb-4 animate-in">منصة التشفير الشاملة للأكواد</h1>
+        <p class="lead mb-4 animate-in">احمِ بياناتك وشفراتك البرمجية باستخدام أحدث تقنيات التشفير العالمية. منصة متكاملة تجمع 16 تقنية تشفير في مكان واحد.</p>
+        <a href="#techniques" class="btn btn-cipher btn-lg animate-in">ابدأ التشفير الآن</a>
+      </div>
+      <div class="col-lg-6">
+        <div class="animate-in">
+          <svg class="img-fluid" viewBox="0 0 500 400">
+            <!-- Animated encryption visualization -->
+            <g id="encryption-animation">
+              <circle cx="250" cy="200" r="150" fill="none" stroke="var(--secondary-color)" stroke-width="2">
+                <animate attributeName="r" values="150;160;150" dur="3s" repeatCount="indefinite"/>
+              </circle>
+              <path d="M150,200 L350,200" stroke="var(--accent-color)" stroke-width="3" stroke-dasharray="5,5">
+                <animate attributeName="stroke-dashoffset" values="0;100" dur="2s" repeatCount="indefinite"/>
+              </path>
+              <!-- Add more animated elements here -->
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Encryption Techniques Section -->
+<section id="techniques" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center section-title">تقنيات التشفير المتاحة</h2>
+    <div class="technique-grid">
+      <!-- CryptoJS -->
+      <div class="col-md-4">
+        <div class="cipher-card p-4">
+          <h3 class="h5 mb-3">
+            <i class="fas fa-key me-2"></i>
+            CryptoJS
+          </h3>
+          <p>تشفير قوي باستخدام مفتاح سري مع دعم لخوارزميات متعددة</p>
+          <button class="btn btn-cipher mt-3" onclick="location.href='/cryptojs'">
+            ابدأ التشفير
+          </button>
+        </div>
+      </div>
+      
+      <!-- Base64 -->
+      <div class="col-md-4">
+        <div class="cipher-card p-4">
+          <h3 class="h5 mb-3">
+            <i class="fas fa-exchange-alt me-2"></i>
+            Base64
+          </h3>
+          <p>تحويل البيانات إلى تنسيق Base64 للنقل الآمن</p>
+          <button class="btn btn-cipher mt-3" onclick="location.href='/base64'">
+            ابدأ التحويل
+          </button>
+        </div>
+      </div>
+
+      <!-- Hexadecimal -->
+      <div class="col-md-4">
+        <div class="cipher-card p-4">
+          <h3 class="h5 mb-3">
+            <i class="fas fa-code me-2"></i>
+            Hexadecimal
+          </h3>
+          <p>تحويل النصوص إلى النظام الست عشري وبالعكس</p>
+          <button class="btn btn-cipher mt-3" onclick="location.href='/hex'">
+            ابدأ التحويل
+          </button>
+        </div>
+      </div>
+      
+      <!-- HTTPS & SSL/TLS -->
+      <div class="cipher-card p-4">
+        <h3 class="h5 mb-3">
+          <i class="fas fa-lock me-2"></i>
+          HTTPS & SSL/TLS
+        </h3>
+        <p>حماية اتصالات الويب باستخدام بروتوكولات التشفير القياسية</p>
+        <a href="/https-ssl" class="btn btn-cipher mt-3">استخدم الآن</a>
+      </div>
+
+      <!-- JavaScript Encryption -->
+      <div class="cipher-card p-4">
+        <h3 class="h5 mb-3">
+          <i class="fab fa-js me-2"></i>
+          JavaScript Encryption
+        </h3>
+        <p>تشفير أكواد جافا سكريبت وحمايتها من التعديل</p>
+        <a href="/js-encryption" class="btn btn-cipher mt-3">استخدم الآن</a>
+      </div>
+
+      <!-- Database Encryption -->
+      <div class="cipher-card p-4">
+        <h3 class="h5 mb-3">
+          <i class="fas fa-database me-2"></i>
+          Database Encryption
+        </h3>
+        <p>تشفير البيانات في قواعد البيانات بطريقة آمنة</p>
+        <a href="/db-encryption" class="btn btn-cipher mt-3">استخدم الآن</a>
+      </div>
+
+      <!-- Web Cryptography API -->
+      <div class="cipher-card p-4">
+        <h3 class="h5 mb-3">
+          <i class="fas fa-code me-2"></i>
+          Web Cryptography API
+        </h3>
+        <p>استخدام واجهة برمجة التشفير المدمجة في المتصفح</p>
+        <a href="/web-crypto" class="btn btn-cipher mt-3">استخدم الآن</a>
+      </div>
+
+      <!-- XML & JSON Encryption -->
+      <div class="cipher-card p-4">
+        <h3 class="h5 mb-3">
+          <i class="fas fa-file-code me-2"></i>
+          XML & JSON Encryption
+        </h3>
+        <p>تشفير بيانات XML وJSON بشكل آمن</p>
+        <a href="/xml-json" class="btn btn-cipher mt-3">استخدم الآن</a>
+      </div>
+
+      <!-- JWT -->
+      <div class="cipher-card p-4">
+        <h3 class="h5 mb-3">
+          <i class="fas fa-key me-2"></i>
+          JWT (JSON Web Token)
+        </h3>
+        <p>تشفير وتوثيق البيانات باستخدام JSON Web Tokens</p>
+        <a href="/jwt" class="btn btn-cipher mt-3">استخدم الآن</a>
+      </div>
+
+      <!-- Continue with other techniques... -->
+    </div>
+  </div>
+</section>
+
+<!-- AI Assistant Section -->
+<section id="ai" class="py-5">
+  <div class="container">
+    <h2 class="text-center section-title">المساعد الذكي</h2>
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <p class="lead mb-4">استفد من خبرة مساعدنا الذكي في اختيار وتطبيق تقنية التشفير المناسبة لاحتياجاتك.</p>
+        <ul class="list-unstyled">
+          <li class="mb-3">
+            <i class="fas fa-check-circle text-success me-2"></i>
+            توصيات ذكية لتقنيات التشفير
+          </li>
+          <li class="mb-3">
+            <i class="fas fa-check-circle text-success me-2"></i>
+            شرح مفصل لكل تقنية وطريقة استخدامها
+          </li>
+          <li class="mb-3">
+            <i class="fas fa-check-circle text-success me-2"></i>
+            مساعدة فورية في حل المشكلات
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-6">
+        <div class="ai-chat p-4">
+          <div class="chat-messages">
+            <div class="ai-message chat-message">
+              مرحباً! كيف يمكنني مساعدتك في تشفير البيانات اليوم؟
+            </div>
+            <!-- Chat messages will be added here -->
+          </div>
+          <div class="input-group mt-3">
+            <input type="text" class="form-control" placeholder="اكتب سؤالك هنا...">
+            <button class="btn btn-cipher">إرسال</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center section-title">مميزات المنصة</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="text-center">
+          <i class="fas fa-shield-alt feature-icon"></i>
+          <h3 class="h5">حماية قصوى</h3>
+          <p>تشفير قوي باستخدام أحدث الخوارزميات العالمية</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="text-center">
+          <i class="fas fa-brain feature-icon"></i>
+          <h3 class="h5">ذكاء اصطناعي</h3>
+          <p>مساعد ذكي يرشدك لأفضل تقنيات التشفير</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="text-center">
+          <i class="fas fa-globe feature-icon"></i>
+          <h3 class="h5">دعم متعدد اللغات</h3>
+          <p>واجهة مستخدم باللغتين العربية والإنجليزية</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section id="faq" class="py-5">
+  <div class="container">
+    <h2 class="text-center section-title">الأسئلة الشائعة</h2>
+    <div class="accordion" id="faqAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+            ما هي أفضل تقنية تشفير لموقع الويب؟
+          </button>
+        </h2>
+        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            يعتمد ذلك على احتياجاتك المحددة، ولكن بشكل عام يُنصح باستخدام HTTPS/SSL للاتصالات وAES للبيانات الحساسة.
+          </div>
+        </div>
+      </div>
+      <!-- Add more FAQ items -->
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-dark text-light py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h5>CipherBox</h5>
+        <p>منصة التشفير الشاملة للأكواد والبيانات</p>
+      </div>
+      <div class="col-md-4">
+        <h5>روابط سريعة</h5>
+        <ul class="list-unstyled">
+          <li><a href="#home" class="text-light">الرئيسية</a></li>
+          <li><a href="#techniques" class="text-light">التقنيات</a></li>
+          <li><a href="#ai" class="text-light">الذكاء الاصطناعي</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5>تواصل معنا</h5>
+        <div class="d-flex gap-3">
+          <a href="#" class="text-light"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-light"><i class="fab fa-github"></i></a>
+          <a href="#" class="text-light"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // AI Chat Functionality
+  const chatInput = document.querySelector('.ai-chat input');
+  const chatMessages = document.querySelector('.chat-messages');
+  const sendButton = document.querySelector('.ai-chat button');
+
+  function addMessage(message, isUser = false) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat-message ${isUser ? 'user-message' : 'ai-message'}`;
+    messageDiv.textContent = message;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function handleMessage() {
+    const message = chatInput.value.trim();
+    if (message) {
+      addMessage(message, true);
+      chatInput.value = '';
+      
+      // Simulate AI response
+      setTimeout(() => {
+        addMessage('أفهم احتياجك. دعني أقترح أفضل تقنية تشفير مناسبة لحالتك...');
+      }, 1000);
+    }
+  }
+
+  sendButton.addEventListener('click', handleMessage);
+  chatInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      handleMessage();
+    }
+  });
+
+  // Language Switch
+  const langSwitch = document.querySelector('.lang-switch');
+  langSwitch.addEventListener('click', function() {
+    document.body.dir = document.body.dir === 'rtl' ? 'ltr' : 'rtl';
+  });
+
+  // Smooth Scroll
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  // Animation on Scroll
+  const animateElements = document.querySelectorAll('.animate-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  });
+
+  animateElements.forEach(element => {
+    observer.observe(element);
+  });
+});
+</script>
+</body></html>
