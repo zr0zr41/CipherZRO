@@ -1,0 +1,364 @@
+<html><head><base href="https://letsencrypt.org/">
+<title>Let's Encrypt - شهادات SSL/TLS مجانية</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+:root {
+  --primary-color: #2C3E50;
+  --secondary-color: #2ECC71;
+  --accent-color: #E74C3C;
+  --text-color: #34495E;
+  --light-bg: #ECF0F1;
+}
+
+body {
+  font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+  color: var(--text-color);
+  background-color: var(--light-bg);
+  direction: rtl;
+}
+
+.navbar {
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.hero {
+  background: linear-gradient(135deg, #2C3E50 0%, #3498DB 100%);
+  color: white;
+  padding: 4rem 0;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.feature-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 1rem 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+.getting-started-step {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.step-number {
+  background: var(--secondary-color);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1rem;
+  font-size: 1.2rem;
+}
+
+.code-block {
+  background: #2C3E50;
+  color: #ECF0F1;
+  padding: 1.5rem;
+  border-radius: 10px;
+  font-family: monospace;
+  margin: 1rem 0;
+  direction: ltr;
+  text-align: left;
+}
+
+.btn-primary {
+  background-color: var(--secondary-color);
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 25px;
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  background-color: #27AE60;
+  transform: translateY(-2px);
+}
+
+.sponsor-logo {
+  max-width: 150px;
+  height: auto;
+  margin: 1.5rem;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.sponsor-logo:hover {
+  opacity: 1;
+}
+
+.testimonial {
+  font-style: italic;
+  padding: 1.5rem;
+  border-right: 4px solid var(--secondary-color);
+  margin: 1rem 0;
+  background: white;
+  border-radius: 10px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <i class="fas fa-lock me-2"></i>Let's Encrypt
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <li class="nav-item">
+          <a class="nav-link" href="/CipherZRO/index">عوده</a>
+        </li>
+          <a class="nav-link active" href="#">الرئيسية</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#docs">التوثيق</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#community">المجتمع</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#about">عن المشروع</a>
+        </li>
+      </ul>
+      <div class="d-flex">
+        <a href="#getstarted" class="btn btn-primary">ابدأ الآن</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container text-center">
+    <h1 class="display-4 mb-4">تشفير آمن للويب</h1>
+    <p class="lead mb-4">هيئة إصدار شهادات مجانية وتلقائية ومفتوحة المصدر. احصل على شهادات SSL/TLS لمواقعك مجاناً.</p>
+    <a href="#getstarted" class="btn btn-lg btn-primary">احصل على شهادتك</a>
+  </div>
+</section>
+
+<div class="container">
+  <!-- Stats Section -->
+  <div class="row mb-5">
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div class="stat-number">+260M</div>
+        <div>شهادة نشطة</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div class="stat-number">98%</div>
+        <div>توافق مع المتصفحات</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <div class="stat-number">0$</div>
+        <div>تكلفة كل شهادة</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <section class="mb-5">
+    <h2 class="text-center mb-4">لماذا تختار Let's Encrypt؟</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <i class="fas fa-robot feature-icon"></i>
+          <h3>تلقائي بالكامل</h3>
+          <p>يتم إصدار وتجديد الشهادات تلقائياً من خلال بروتوكول ACME.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <i class="fas fa-lock feature-icon"></i>
+          <h3>آمن</h3>
+          <p>ممارسات أمنية قياسية ومراجعات أمنية منتظمة.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card">
+          <i class="fas fa-globe feature-icon"></i>
+          <h3>موثوق عالمياً</h3>
+          <p>معتمد من جميع المتصفحات وأنظمة التشغيل الرئيسية.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Getting Started Section -->
+  <section id="getstarted" class="mb-5">
+    <h2 class="text-center mb-4">كيفية البدء</h2>
+    <div class="getting-started-step">
+      <span class="step-number">١</span>
+      <h3>اختر العميل</h3>
+      <p>حدد عميل ACME لمساعدتك في الحصول على شهادتك وتثبيتها.</p>
+      <div class="code-block">
+        # Using Certbot
+        sudo apt-get update
+        sudo apt-get install certbot
+      </div>
+    </div>
+    <div class="getting-started-step">
+      <span class="step-number">٢</span>
+      <h3>احصل على الشهادة</h3>
+      <p>قم بتشغيل العميل للحصول على شهادتك.</p>
+      <div class="code-block">
+        sudo certbot certonly --standalone -d example.com -d www.example.com
+      </div>
+    </div>
+    <div class="getting-started-step">
+      <span class="step-number">٣</span>
+      <h3>ثبت الشهادة</h3>
+      <p>قم بإعداد خادم الويب الخاص بك باستخدام الشهادة.</p>
+      <div class="code-block">
+        # Example for Nginx
+        ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+      </div>
+    </div>
+  </section>
+
+  <!-- Sponsors Section -->
+  <section class="mb-5 text-center">
+    <h2 class="mb-4">برعاية</h2>
+    <div class="d-flex flex-wrap justify-content-center align-items-center">
+      <img src="https://www.mozilla.org/media/img/structured-data/logo-mozilla.png" alt="شعار Mozilla" class="sponsor-logo">
+      <img src="https://www.eff.org/files/2019/10/21/eff_logo_social.png" alt="شعار EFF" class="sponsor-logo">
+      <img src="https://www.cisco.com/c/dam/en/us/td/i/200/206/2062.jpg" alt="شعار Cisco" class="sponsor-logo">
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="mb-5">
+    <h2 class="text-center mb-4">آراء المستخدمين</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="testimonial">
+          "لقد جعل Let's Encrypt تشفير SSL/TLS متاحاً للجميع. إنه تغيير جذري في أمن الويب."
+          <br>- خبير أمن الويب
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="testimonial">
+          "عملية التجديد التلقائي توفر علينا ساعات لا تحصى من إدارة الشهادات يدوياً."
+          <br>- مدير النظام
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="bg-dark text-light py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h5>Let's Encrypt</h5>
+        <p>هيئة إصدار شهادات غير ربحية توفر شهادات TLS لأكثر من 260 مليون موقع.</p>
+      </div>
+      <div class="col-md-4">
+        <h5>روابط سريعة</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-light">التوثيق</a></li>
+          <li><a href="#" class="text-light">ابدأ الآن</a></li>
+          <li><a href="#" class="text-light">منتدى المجتمع</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5>تواصل معنا</h5>
+        <div class="d-flex gap-3">
+          <a href="#" class="text-light"><i class="fab fa-github fa-lg"></i></a>
+          <a href="#" class="text-light"><i class="fab fa-twitter fa-lg"></i></a>
+          <a href="#" class="text-light"><i class="fab fa-linkedin fa-lg"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const observerOptions = {
+  root: null,
+  threshold: 0.1,
+  rootMargin: '0px'
+};
+
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('animate-in');
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.feature-card, .getting-started-step, .stat-card').forEach(el => {
+  observer.observe(el);
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+});
+</script>
+</body></html>
