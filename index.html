@@ -8,7 +8,7 @@
 <meta property="og:url" content="https://cipherbox.com/">
 <meta property="og:title" content="CipherBox - منصة التشفير الشاملة">
 <meta property="og:description" content="احمِ بياناتك وشفراتك البرمجية باستخدام أحدث تقنيات التشفير العالمية. منصة متكاملة تجمع 16 تقنية تشفير في مكان واحد.">
-<meta property="og:image" content="https://cipherbox.com/og-image.jpg">
+<meta property="og:image" content="https://i.postimg.cc/DZrQjVfK/image.png">
 <meta property="og:locale" content="ar_SA">
 <meta property="og:locale:alternate" content="en_US">
 
@@ -17,7 +17,7 @@
 <meta property="twitter:url" content="https://cipherbox.com/">
 <meta property="twitter:title" content="CipherBox - منصة التشفير الشاملة">
 <meta property="twitter:description" content="احمِ بياناتك وشفراتك البرمجية باستخدام أحدث تقنيات التشفير العالمية. منصة متكاملة تجمع 16 تقنية تشفير في مكان واحد.">
-<meta property="twitter:image" content="https://cipherbox.com/og-image.jpg">
+<meta property="twitter:image" content="https://i.postimg.cc/DZrQjVfK/image.png">
 
 <!-- Additional Meta Tags -->
 <meta name="theme-color" content="#072448">
@@ -25,6 +25,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="author" content="CipherBox">
+<link rel="shortcut icon" type="image/x-icon" href="https://i.postimg.cc/DZrQjVfK/image.png">
 <meta name="keywords" content="تشفير, حماية البيانات, أمن المعلومات, encryption, cybersecurity, data protection">
 <style>
 :root {
@@ -155,13 +156,129 @@ body {
 .animate-in {
   animation: fadeIn 0.5s ease-out forwards;
 }
+
+/* Added Styles */
+.modal-body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.mission-statement {
+  border-right: 4px solid var(--secondary-color);
+  background-color: rgba(84, 210, 210, 0.1) !important;
+}
+
+.developer-info {
+  border-bottom: 2px solid #eee;
+  padding-bottom: 20px;
+}
+
+.security-commitment {
+  background-color: rgba(7, 36, 72, 0.05) !important;
+}
+
+.privacy-points {
+  list-style: none;
+  padding: 0;
+}
+
+.privacy-points li {
+  transition: transform 0.2s;
+}
+
+.privacy-points li:hover {
+  transform: translateX(-5px);
+}
+
+.developer-credit {
+  color: var(--primary-color);
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.supervision {
+  color: var(--accent-color);
+  font-weight: 500;
+}
+
+.contact-list li a {
+  transition: all 0.3s ease;
+}
+
+.contact-list li a:hover {
+  color: var(--secondary-color) !important;
+  transform: translateX(5px);
+}
+
+.contact-list i {
+  width: 20px;
+  text-align: center;
+}
 </style></head><body dir="rtl">
+
+<!-- Privacy Policy Modal -->
+<div class="modal fade" id="privacyModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">سياسة الخصوصية والأمان</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-4">
+          <img src="https://i.postimg.cc/DZrQjVfK/image.png" alt="شعار فريق ZR0" width="200" height="200" class="img-fluid mb-3">
+          <h4 class="fw-bold mb-3">مرحباً بك في CipherBox</h4>
+          <p class="lead">نحن فخورون بتقديم هذه المنصة المتطورة للمطورين والمبرمجين لتعزيز أمان وحماية أكوادهم وبياناتهم</p>
+          
+          <div class="mission-statement my-4 p-3 bg-light rounded">
+            <i class="fas fa-shield-alt fa-2x text-primary mb-3"></i>
+            <p class="mb-0">نهدف إلى تمكين المطورين من استخدام أحدث تقنيات التشفير العالمية بسهولة وفعالية، مع توفير بيئة تعليمية متكاملة</p>
+          </div>
+
+          <div class="developer-info my-4">
+            <h5 class="text-primary mb-3">فريق التطوير</h5>
+            <p class="developer-credit mb-2">تم تطوير المنصة بواسطة المهندس كهلان عثمان</p>
+            <p class="supervision text-secondary">بإشراف فريق الأمن السيبراني ووحدة الأمن الإلكترونية ZR0</p>
+          </div>
+        </div>
+
+        <div class="security-commitment bg-light p-4 rounded">
+          <h5 class="text-primary mb-3">
+            <i class="fas fa-lock me-2"></i>
+            التزامنا بأمان وخصوصية بياناتك
+          </h5>
+          <ul class="privacy-points">
+            <li class="d-flex align-items-center mb-3">
+              <i class="fas fa-shield-alt text-success me-2"></i>
+              معالجة البيانات تتم حصرياً في متصفحك - لا نخزن أي معلومات على خوادمنا
+            </li>
+            <li class="d-flex align-items-center mb-3">
+              <i class="fas fa-user-shield text-success me-2"></i>
+              خصوصية تامة - لا يمكن لأحد الوصول إلى أكوادك أو بياناتك
+            </li>
+            <li class="d-flex align-items-center mb-3">
+              <i class="fas fa-check-circle text-success me-2"></i>
+              نستخدم معايير التشفير العالمية والتقنيات الأمنية المتقدمة
+            </li>
+            <li class="d-flex align-items-center">
+              <i class="fas fa-code-branch text-success me-2"></i>
+              تحديثات مستمرة لضمان أعلى مستويات الأمان والحماية
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cipher" data-bs-dismiss="modal">فهمت ذلك</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
   <div class="container">
     <a class="navbar-brand" href="#">
-      <i class="fas fa-shield-alt me-2"></i>CipherBox
+      <img src="https://i.postimg.cc/DZrQjVfK/image.png" alt="ZR0 Team Logo" height="40" class="me-2">
+      CipherBox
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
@@ -233,9 +350,7 @@ body {
             CryptoJS
           </h3>
           <p>تشفير قوي باستخدام مفتاح سري مع دعم لخوارزميات متعددة</p>
-          <a href="/CipherZRO
-/ciphers/
-cryptojs" class="btn btn-cipher mt-3">استخدم الآن</a>
+          <a href="/CipherZRO/ciphers/cryptojs" class="btn btn-cipher mt-3">استخدم الآن</a>
         </div>
       
       
@@ -435,7 +550,27 @@ cryptojs" class="btn btn-cipher mt-3">استخدم الآن</a>
       </div>
       <div class="col-md-4">
         <h5>تواصل معنا</h5>
-        <div class="d-flex gap-3">
+        <ul class="list-unstyled contact-list">
+          <li class="mb-2">
+            <a href="mailto:zr0zr41@gmail.com" class="text-light text-decoration-none">
+              <i class="fas fa-envelope me-2"></i>
+              zr0zr41@gmail.com
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="tel:+967779332395" class="text-light text-decoration-none">
+              <i class="fas fa-phone me-2"></i>
+              +967 779 332 395
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="https://wa.me/+967779332395" class="text-light text-decoration-none" target="_blank">
+              <i class="fab fa-whatsapp me-2"></i>
+              تواصل عبر الواتساب
+            </a>
+          </li>
+        </ul>
+        <div class="d-flex gap-3 mt-3">
           <a href="#" class="text-light"><i class="fab fa-twitter"></i></a>
           <a href="#" class="text-light"><i class="fab fa-github"></i></a>
           <a href="#" class="text-light"><i class="fab fa-linkedin"></i></a>
@@ -453,6 +588,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const chatInput = document.querySelector('.ai-chat input');
   const chatMessages = document.querySelector('.chat-messages');
   const sendButton = document.querySelector('.ai-chat button');
+  
+  const possibleResponses = [
+    "أفهم ما تحتاج. دعني أقترح استخدام تقنية AES للتشفير المتقدم.",
+    "بناءً على وصفك، أنصح باستخدام Base64 لتشفير البيانات البسيطة.",
+    "هل تحتاج مساعدة في كيفية استخدام أي من تقنيات التشفير؟",
+    "يمكنني مساعدتك في اختيار أفضل خوارزمية تشفير لمشروعك.",
+    "هل لديك أي أسئلة محددة حول أمان البيانات؟"
+  ];
 
   function addMessage(message, isUser = false) {
     const messageDiv = document.createElement('div');
@@ -470,7 +613,8 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Simulate AI response
       setTimeout(() => {
-        addMessage('أفهم احتياجك. دعني أقترح أفضل تقنية تشفير مناسبة لحالتك...');
+        const randomResponse = possibleResponses[Math.floor(Math.random() * possibleResponses.length)];
+        addMessage(randomResponse);
       }, 1000);
     }
   }
@@ -511,6 +655,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   animateElements.forEach(element => {
     observer.observe(element);
+  });
+
+  // Show Privacy Policy Modal on Load
+  window.addEventListener('load', function() {
+    const privacyModal = new bootstrap.Modal(document.getElementById('privacyModal'));
+    privacyModal.show();
   });
 });
 </script>
