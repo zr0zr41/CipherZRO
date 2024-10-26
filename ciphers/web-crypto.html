@@ -1,0 +1,388 @@
+<html><head><base href="/web-crypto">
+<title>CipherBox - Web Cryptography API</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css" rel="stylesheet">
+<style>
+:root {
+  --primary-color: #072448;
+  --secondary-color: #54d2d2;
+  --accent-color: #ff6b6c;
+  --light-bg: #f8f9fa;
+  --dark-bg: #1a1b1e;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--light-bg);
+  color: var(--primary-color);
+}
+
+.navbar {
+  background: var(--primary-color);
+}
+
+.code-editor {
+  background: var(--dark-bg);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.code-input {
+  width: 100%;
+  min-height: 150px;
+  background: #2d2d2d;
+  color: #fff;
+  font-family: 'Courier New', monospace;
+  padding: 15px;
+  border: none;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.output-area {
+  background: #2d2d2d;
+  color: #fff;
+  padding: 15px;
+  border-radius: 4px;
+  min-height: 100px;
+  font-family: 'Courier New', monospace;
+  margin-top: 20px;
+}
+
+.btn-cipher {
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.btn-cipher:hover {
+  background: var(--accent-color);
+  transform: scale(1.05);
+}
+
+.algorithm-select {
+  background: #2d2d2d;
+  color: #fff;
+  border: 1px solid var(--secondary-color);
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.key-input {
+  background: #2d2d2d;
+  color: #fff;
+  border: 1px solid var(--secondary-color);
+  border-radius: 4px;
+  padding: 8px;
+  width: 100%;
+}
+
+.docs-section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.copy-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+}
+
+.example-code {
+  position: relative;
+  margin: 20px 0;
+}
+
+.tab-content {
+  background: white;
+  padding: 20px;
+  border-radius: 0 0 8px 8px;
+  border: 1px solid #dee2e6;
+  border-top: none;
+}
+
+</style>
+</head>
+<body dir="rtl">
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <i class="fas fa-shield-alt me-2"></i>CipherBox
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/CipherZRO/index">الرئيسية</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Web Crypto API</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container py-5">
+  <h1 class="mb-4">Web Cryptography API</h1>
+  
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="code-editor">
+        <h3 class="text-white mb-3">تشفير النصوص</h3>
+        
+        <div class="mb-3">
+          <label class="text-white mb-2">خوارزمية التشفير:</label>
+          <select class="algorithm-select" id="algorithm">
+            <option value="AES-GCM">AES-GCM</option>
+            <option value="AES-CBC">AES-CBC</option>
+            <option value="RSA-OAEP">RSA-OAEP</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="text-white mb-2">المفتاح السري:</label>
+          <input type="text" class="key-input" id="secretKey" placeholder="أدخل المفتاح السري">
+        </div>
+
+        <div class="mb-3">
+          <label class="text-white mb-2">النص المراد تشفيره:</label>
+          <textarea class="code-input" id="inputText" placeholder="أدخل النص هنا..."></textarea>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button class="btn btn-cipher" id="encryptBtn">
+            <i class="fas fa-lock me-2"></i>تشفير
+          </button>
+          <button class="btn btn-cipher" id="decryptBtn">
+            <i class="fas fa-unlock me-2"></i>فك التشفير
+          </button>
+        </div>
+
+        <div class="output-area" id="outputText"></div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="docs-section">
+        <h4>التوثيق السريع</h4>
+        <ul class="list-unstyled">
+          <li class="mb-3">
+            <i class="fas fa-info-circle text-primary me-2"></i>
+            <strong>AES-GCM:</strong> خوارزمية متقدمة للتشفير المتماثل
+          </li>
+          <li class="mb-3">
+            <i class="fas fa-info-circle text-primary me-2"></i>
+            <strong>AES-CBC:</strong> نمط تشفير متسلسل للكتل
+          </li>
+          <li class="mb-3">
+            <i class="fas fa-info-circle text-primary me-2"></i>
+            <strong>RSA-OAEP:</strong> تشفير لا متماثل للمفاتيح العامة
+          </li>
+        </ul>
+      </div>
+
+      <div class="docs-section">
+        <h4>مثال برمجي</h4>
+        <div class="example-code">
+          <button class="copy-button">نسخ</button>
+          <pre><code class="language-javascript">
+const encrypt = async (text, key) => {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  
+  const cryptoKey = await window.crypto.subtle
+    .importKey(
+      "raw",
+      encoder.encode(key),
+      "AES-GCM",
+      false,
+      ["encrypt"]
+    );
+
+  const iv = window.crypto.getRandomValues(
+    new Uint8Array(12)
+  );
+  
+  const encrypted = await window.crypto.subtle
+    .encrypt(
+      {
+        name: "AES-GCM",
+        iv: iv
+      },
+      cryptoKey,
+      data
+    );
+
+  return {
+    encrypted,
+    iv
+  };
+};
+          </code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-javascript.min.js"></script>
+<script>
+// Utility functions for encoding/decoding
+const buf2hex = buffer => {
+  return Array.prototype.map.call(
+    new Uint8Array(buffer),
+    x => ('00' + x.toString(16)).slice(-2)
+  ).join('');
+};
+
+const hex2buf = hex => {
+  return new Uint8Array(
+    hex.match(/[\da-f]{2}/gi).map(h => parseInt(h, 16))
+  );
+};
+
+// Main encryption/decryption functions
+async function generateKey(password, salt) {
+  const encoder = new TextEncoder();
+  const passwordBuffer = encoder.encode(password);
+  const keyMaterial = await window.crypto.subtle.importKey(
+    'raw',
+    passwordBuffer,
+    'PBKDF2',
+    false,
+    ['deriveBits', 'deriveKey']
+  );
+  
+  return window.crypto.subtle.deriveKey(
+    {
+      name: 'PBKDF2',
+      salt: encoder.encode(salt || 'default-salt'),
+      iterations: 100000,
+      hash: 'SHA-256'
+    },
+    keyMaterial,
+    { name: 'AES-GCM', length: 256 },
+    true,
+    ['encrypt', 'decrypt']
+  );
+}
+
+async function encrypt(text) {
+  try {
+    const algorithm = document.getElementById('algorithm').value;
+    const secretKey = document.getElementById('secretKey').value;
+    
+    if (!text || !secretKey) {
+      throw new Error('يرجى إدخال النص والمفتاح السري');
+    }
+
+    const encoder = new TextEncoder();
+    const key = await generateKey(secretKey);
+    const iv = window.crypto.getRandomValues(new Uint8Array(12));
+    
+    const encrypted = await window.crypto.subtle.encrypt(
+      {
+        name: algorithm,
+        iv: iv
+      },
+      key,
+      encoder.encode(text)
+    );
+
+    return {
+      iv: buf2hex(iv),
+      data: buf2hex(encrypted)
+    };
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function decrypt(encryptedData) {
+  try {
+    const algorithm = document.getElementById('algorithm').value;
+    const secretKey = document.getElementById('secretKey').value;
+    
+    if (!encryptedData || !secretKey) {
+      throw new Error('يرجى إدخال النص المشفر والمفتاح السري');
+    }
+
+    const key = await generateKey(secretKey);
+    const decrypted = await window.crypto.subtle.decrypt(
+      {
+        name: algorithm,
+        iv: hex2buf(encryptedData.iv)
+      },
+      key,
+      hex2buf(encryptedData.data)
+    );
+
+    return new TextDecoder().decode(decrypted);
+  } catch (error) {
+    throw error;
+  }
+}
+
+// UI Event Handlers
+document.getElementById('encryptBtn').addEventListener('click', async () => {
+  try {
+    const inputText = document.getElementById('inputText').value;
+    const encrypted = await encrypt(inputText);
+    document.getElementById('outputText').textContent = 
+      JSON.stringify(encrypted, null, 2);
+  } catch (error) {
+    document.getElementById('outputText').textContent = 
+      `خطأ: ${error.message}`;
+  }
+});
+
+document.getElementById('decryptBtn').addEventListener('click', async () => {
+  try {
+    const encryptedData = JSON.parse(
+      document.getElementById('inputText').value
+    );
+    const decrypted = await decrypt(encryptedData);
+    document.getElementById('outputText').textContent = decrypted;
+  } catch (error) {
+    document.getElementById('outputText').textContent = 
+      `خطأ: ${error.message}`;
+  }
+});
+
+// Copy button functionality
+document.querySelector('.copy-button').addEventListener('click', function() {
+  const code = this.nextElementSibling.textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    this.textContent = 'تم النسخ!';
+    setTimeout(() => {
+      this.textContent = 'نسخ';
+    }, 2000);
+  });
+});
+
+// Initialize syntax highlighting
+Prism.highlightAll();
+</script>
+</body></html>
